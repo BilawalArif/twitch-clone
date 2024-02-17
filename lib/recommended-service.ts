@@ -1,6 +1,6 @@
 import { db } from "./db";
 
-export const gtRecommended = async () => {
+export const getRecommended = async () => {
   const users = await db.user.findMany({
     orderBy: {
       createdAt: "desc",
