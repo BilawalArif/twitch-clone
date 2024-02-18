@@ -1,7 +1,7 @@
 import { getSelf } from "./auth-service";
 import { db } from "./db";
 
-export const getRecommended = async () => {
+export const getRecommendedUsers = async () => {
   let userId;
 
   try {
@@ -16,9 +16,22 @@ export const getRecommended = async () => {
   if (userId) {
     users = await db.user.findMany({
       where: {
-        NOT: {
-          id: userId,
-        },
+        AND: [
+          {
+            NOT: {
+              id: userId,
+            },
+          },
+          {
+            NOT: {
+              followedBy: {
+                some: {
+                  followerId: userId,
+                },
+              },
+            },
+          },
+        ],
       },
       orderBy: {
         createdAt: "desc",
