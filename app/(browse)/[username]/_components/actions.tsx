@@ -46,7 +46,7 @@ export const Actions = ({ isFollowing, userId }: ActionsProps) => {
         .then((data) =>
           toast.success(`UnBlocked the user ${data.blocked.username}`)
         )
-        .catch(() => toast.error("Somethinf went wrong"));
+        .catch(() => toast.error("Something went wrong"));
     });
   };
   return (
