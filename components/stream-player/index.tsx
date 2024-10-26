@@ -1,20 +1,24 @@
 "use client";
 
-import { useViewerToken } from "@/hooks/user-viewer-tokes";
+import { useViewerToken } from "@/hooks/user-viewer-token";
 import { Stream, User } from "@prisma/client";
 import { LiveKitRoom } from "@livekit/components-react";
 import { Video, VideoSkeleton } from "./video";
 import { useChatSidebar } from "@/store/use-chat-sidebar";
 import { cn } from "@/lib/utils";
 import { ChatToggle } from "./chat-toggle";
-import { Chat, ChatSkeleton } from "./chat1";
+import { Chat, ChatSkeleton } from "./chat";
 
 interface StreamPlayerProps {
   user: User & { stream: Stream | null };
   stream: Stream;
   isFollowing: boolean;
 }
-const StreamPlayer = ({ user, stream, isFollowing }: StreamPlayerProps) => {
+export const StreamPlayer = ({
+  user,
+  stream,
+  isFollowing,
+}: StreamPlayerProps) => {
   const { token, name, identity } = useViewerToken(user.id);
   const { collapsed } = useChatSidebar((state) => state);
 
