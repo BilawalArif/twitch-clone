@@ -11,13 +11,15 @@ const receiver = new WebhookReceiver(
 export async function POST(req: Request) {
   const body = await req.text();
   const headerPayload = headers();
-  const authorizationHeader = headerPayload.get("Authorization");
+  const authorization = headerPayload.get("Authorization");
 
-  if (!authorizationHeader) {
-    return new Response("No authorization header", { status: 400 });
+  if (!authorization) {
+    return new Response("Error occured -- no authorization headers", {
+      status: 400,
+    });
   }
 
-  const event = receiver.receive(body, authorizationHeader);
+  const event = receiver.receive(body, authorization);
 
   if ((await event).event === "ingress_started") {
     await db.stream.update({
@@ -40,5 +42,6 @@ export async function POST(req: Request) {
       },
     });
   }
+
   return new Response("Success!", { status: 200 });
 }
